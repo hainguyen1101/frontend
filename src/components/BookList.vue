@@ -19,10 +19,17 @@
                             <v-icon dark>mdi-delete</v-icon>
                         </v-btn>
                     </template>
+                    <template v-slot:item.image="props">
+                        <div class="p-2">
+                            <v-img v-bind:src="'data:image/jpeg;base64,'+props.item.image" max-width="100px"
+                                max-height="100px"></v-img>
+                        </div>
+
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
-        <CreateBookDialog v-model="showScheduleForm" @eventname="updateparent""></CreateBookDialog>
+        <CreateBookDialog v-model="showScheduleForm" @eventname="updateparent" :title="titleDialog"></CreateBookDialog>
     </v-container>
 
 
@@ -41,6 +48,9 @@
                 showScheduleForm: false,
                 booklist: [],
                 headers: [{
+                    text: 'Image',
+                    value: 'image',
+                }, {
                     text: 'Book name',
                     align: 'start',
                     sortable: true,
@@ -61,10 +71,11 @@
                     sortable: true,
                     value: 'publish_year',
                 },
-                    , {
+                {
                     text: 'Action',
                     value: 'action',
-                }]
+                }],
+                titleDialog: "aaa"
 
             }
         },
@@ -94,9 +105,12 @@
             },
             onEditClick(item) {
                 console.log(item);
+                this.titleDialog = "Edit book";
             },
             onAddClick() {
                 this.showScheduleForm = true;
+                this.titleDialog = "Create new book";
+                // this.$refs.form.reset();
             },
             updateparent(result) {
                 this.booklist = result;
@@ -105,6 +119,6 @@
     }
 </script>
 
-            <style>
+<style>
 
-            </style>
+</style>
